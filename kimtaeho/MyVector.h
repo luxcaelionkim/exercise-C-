@@ -16,13 +16,13 @@ public:
 		{
 			ptmp = ptmp->nextnode;
 		}
-		ptmp->data = tmp;
 		ptmp->nextnode = new node();
+		ptmp->nextnode->data = tmp;
 	}
 
 	bool erase(node* target)
 	{
-		node* ptmp = this->p;
+		node* ptmp = p;
 		while (ptmp->nextnode != target)
 		{
 			if (ptmp == nullptr) return false;
