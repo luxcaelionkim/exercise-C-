@@ -1,28 +1,35 @@
 #pragma once
-class node {
-public:
-	int data;
+
+template<typename T>
+struct node {
+	T data;
 	node* nextnode = nullptr;
 };
 
-class vector_int {
+template<typename T>
+class my_vector {
 private:
-	node* p = new node();
+	node<T>* p_start = new node<T>();
+	node<T>* p_end = nullptr;
 public:
-	void push(int tmp)
+	void push(T tmp)
 	{
-		node* ptmp = p;
-		while (ptmp->nextnode != nullptr)
+		if (p_end == nullptr)
 		{
-			ptmp = ptmp->nextnode;
+			p_start->data = tmp;
+			p_end = p_start;
 		}
-		ptmp->nextnode = new node();
-		ptmp->nextnode->data = tmp;
+		else
+		{
+			p_end->nextnode = new node<T>();
+			p_end = p_end->nextnode;
+			p_end->data = tmp;
+		}
 	}
 
-	bool erase(node* target)
+	bool erase(node<T>* target)
 	{
-		node* ptmp = p;
+		node<T>* ptmp = p_start;
 		while (ptmp->nextnode != target)
 		{
 			if (ptmp == nullptr) return false;
@@ -33,38 +40,46 @@ public:
 		return true;
 	}
 
-	int front()
+	T front()
 	{
-		return p->data;
+		return p_start->data;
 	}
 
-	int back()
+	T back()
 	{
-		node* ptmp = p;
-		while (ptmp->nextnode != nullptr)
+		if (p_end == nullptr) return -1;
+		return p_end->data;
+	}
+
+	node<T>* begin()
+	{
+		return p_start;
+	}
+
+	node<T>* end()
+	{
+		if (p_end == nullptr) return nullptr;
+		return p_end;
+	}
+	T& operator[](const T& index)
+	{
+		node<T>* tmp = p_start;
+		for (int i = 1; i <= index; i++)
 		{
-			ptmp = ptmp->nextnode;
+			tmp = tmp->nextnode;
 		}
-		return ptmp->data;
+		return tmp->data;
 	}
 
-	node* begin()
+	~my_vector()
 	{
-		return p;
-	}
-
-	node* end()
-	{
-		node* ptmp = p;
-		while (ptmp->nextnode != nullptr)
+		while (p_start->nextnode != nullptr)
 		{
-			ptmp = ptmp->nextnode;
+			node<T>* tmp = p_start;
+			p_start = p_start->nextnode;
+			delete tmp;
 		}
-		return ptmp->nextnode;
-	}
-	void vector_delete()
-	{
-		node* ptmp = p;
+		delete p_start;
 	}
 
 };

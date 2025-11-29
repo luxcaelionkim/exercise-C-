@@ -1,5 +1,4 @@
 ﻿#include <iostream>
-#include <string>
 #include "MyVector.h"
 
 using namespace std;
@@ -13,15 +12,15 @@ void solution()
 
 void input()
 {
-	vector_int v;
-	cin >> n >> m;
+	cin >> m;
+	my_vector<int> v;
 	for (int i = 0; i < m; i++)
 	{
 		int input_value;
 		cin >> input_value;
 		v.push(input_value);
 	}
-	cout << v.front() << " " << v.back();
+	cout << v[1] << " " << v.back();
 }
 
 int main()
